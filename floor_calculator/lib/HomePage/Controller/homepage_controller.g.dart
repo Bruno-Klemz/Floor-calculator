@@ -70,22 +70,6 @@ mixin _$HomePageController on HomePageControllerBase, Store {
     });
   }
 
-  final _$isButtonActiveAtom =
-      Atom(name: 'HomePageControllerBase.isButtonActive');
-
-  @override
-  bool get isButtonActive {
-    _$isButtonActiveAtom.reportRead();
-    return super.isButtonActive;
-  }
-
-  @override
-  set isButtonActive(bool value) {
-    _$isButtonActiveAtom.reportWrite(value, super.isButtonActive, () {
-      super.isButtonActive = value;
-    });
-  }
-
   final _$HomePageControllerBaseActionController =
       ActionController(name: 'HomePageControllerBase');
 
@@ -131,24 +115,12 @@ mixin _$HomePageController on HomePageControllerBase, Store {
   }
 
   @override
-  void activeButton() {
-    final _$actionInfo = _$HomePageControllerBaseActionController.startAction(
-        name: 'HomePageControllerBase.activeButton');
-    try {
-      return super.activeButton();
-    } finally {
-      _$HomePageControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   String toString() {
     return '''
 resultLabel: ${resultLabel},
 floorMaterial: ${floorMaterial},
 methodType: ${methodType},
-isWithError: ${isWithError},
-isButtonActive: ${isButtonActive}
+isWithError: ${isWithError}
     ''';
   }
 }
