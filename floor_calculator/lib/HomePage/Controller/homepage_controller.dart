@@ -30,16 +30,20 @@ abstract class HomePageControllerBase with Store {
         floorMaterial = _calculateSimpleMethod(
             plantWidth: plantWidth, plantLength: plantLength);
 
+        String floorResultRoundedValue = floorMaterial.toStringAsFixed(2);
+
         isWithError = false;
-        resultLabel = 'Material necessário: $floorMaterial m²';
+        resultLabel = 'Material necessário: $floorResultRoundedValue m²';
       } else {
         floorMaterial = _calculateComplexMethod(
             plantWidth: plantWidth,
             plantLength: plantLength,
             partWidth: partWidth as double,
             partLength: partLength as double);
+
+        String floorResultRoundedValue = floorMaterial.toStringAsFixed(2);
         isWithError = false;
-        resultLabel = 'Material necessário: $floorMaterial m²';
+        resultLabel = 'Material necessário: $floorResultRoundedValue m²';
       }
     } catch (e) {
       displayErrorMessage('Valores inválidos, tente novamente!');
