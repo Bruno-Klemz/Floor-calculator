@@ -54,15 +54,13 @@ class HomePage extends StatelessWidget {
                   Observer(builder: (_) {
                     return _mapFloorMaterialToText();
                   }),
-                  Observer(builder: (_) {
-                    return Padding(
-                      padding: EdgeInsets.only(
-                          top: layoutConstrains.resultTextPadding),
-                      child: _buildMainButton(
-                        'Calcular',
-                      ),
-                    );
-                  })
+                  Padding(
+                    padding: EdgeInsets.only(
+                        top: layoutConstrains.resultTextPadding),
+                    child: _buildMainButton(
+                      'Calcular',
+                    ),
+                  )
                 ],
               )
             ],
@@ -73,15 +71,7 @@ class HomePage extends StatelessWidget {
   }
 
   Text _mapFloorMaterialToText() {
-    if (controller.floorMaterial == 0 && controller.isWithError == false) {
-      return customText.buildCustomText(
-          controller.resultLabel, const Color(0xFFBDBDBD), 16, FontWeight.w500);
-    } else if (controller.floorMaterial == 0 &&
-        controller.isWithError == true) {
-      return customText.buildCustomText(
-          controller.resultLabel, Colors.red, 16, FontWeight.w500);
-    } else if (controller.floorMaterial != 0 &&
-        controller.isWithError == true) {
+    if (controller.isWithError == true) {
       return customText.buildCustomText(
           controller.resultLabel, Colors.red, 16, FontWeight.w500);
     } else {
@@ -112,7 +102,8 @@ class HomePage extends StatelessWidget {
     partWidthController.text = '';
     partLengthController.text = '';
     controller.floorMaterial = 0;
-    controller.isButtonActive = false;
+    controller.resultLabel = 'Material necessário: m²';
+    controller.isWithError = false;
   }
 
   Widget _buildChangeMethodTypeButton(
@@ -236,15 +227,14 @@ class HomePage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   customTextField.buildCustomTextInput(
-                      controller: controller1,
-                      textFieldHeight: layoutConstrains.textInputHeight,
-                      textFieldWidth: layoutConstrains.textInputWidth,
-                      key: 'Width'),
+                    controller: controller1,
+                    textFieldHeight: layoutConstrains.textInputHeight,
+                    textFieldWidth: layoutConstrains.textInputWidth,
+                  ),
                   customTextField.buildCustomTextInput(
                       controller: controller2,
                       textFieldHeight: layoutConstrains.textInputHeight,
                       textFieldWidth: layoutConstrains.textInputWidth,
-                      key: 'Length',
                       homePageController: controller)
                 ]),
           ),
@@ -259,30 +249,28 @@ class HomePage extends StatelessWidget {
       height: layoutConstrains.calculateButtonHeight,
       child: ElevatedButton(
         onPressed: () {
-          if (controller.methodType == 'Simple') {
-            try {
+          try {
+            if (controller.methodType == 'Simple') {
               controller.calculateFloorMaterial(
                 plantWidth: double.parse(plantWidthController.text),
                 plantLength: double.parse(plantLengthController.text),
               );
-            } catch (e) {
-              controller.displayErrorMessage('Digite todos os campos!');
+            } else {
+              controller.calculateFloorMaterial(
+                plantWidth: double.parse(plantWidthController.text),
+                plantLength: double.parse(plantLengthController.text),
+                partWidth: double.parse(partWidthController.text),
+                partLength: double.parse(partLengthController.text),
+              );
             }
-          } else {
-            controller.calculateFloorMaterial(
-              plantWidth: double.parse(plantWidthController.text),
-              plantLength: double.parse(plantLengthController.text),
-              partWidth: double.parse(partWidthController.text),
-              partLength: double.parse(partLengthController.text),
-            );
+          } catch (e) {
+            controller.displayErrorMessage('Digite todos os campos!');
           }
         },
         child: customText.buildCustomText(
             label, Colors.white, 24, FontWeight.w400),
         style: ElevatedButton.styleFrom(
-            primary: controller.isButtonActive
-                ? const Color(0xFF16C5F0)
-                : const Color(0xFFBDBDBD),
+            primary: const Color(0xFF16C5F0),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(
                   layoutConstrains.calculateButtonBorderRadius),

@@ -19,9 +19,6 @@ abstract class HomePageControllerBase with Store {
   @observable
   bool isWithError = false;
 
-  @observable
-  bool isButtonActive = false;
-
   @action
   void calculateFloorMaterial(
       {required double plantWidth,
@@ -33,6 +30,7 @@ abstract class HomePageControllerBase with Store {
         floorMaterial = _calculateSimpleMethod(
             plantWidth: plantWidth, plantLength: plantLength);
 
+        isWithError = false;
         resultLabel = 'Material necessário: $floorMaterial m²';
       } else {
         floorMaterial = _calculateComplexMethod(
@@ -40,7 +38,7 @@ abstract class HomePageControllerBase with Store {
             plantLength: plantLength,
             partWidth: partWidth as double,
             partLength: partLength as double);
-
+        isWithError = false;
         resultLabel = 'Material necessário: $floorMaterial m²';
       }
     } catch (e) {
@@ -57,11 +55,6 @@ abstract class HomePageControllerBase with Store {
   @action
   void setMethodType(String newMethodType) {
     methodType = newMethodType;
-  }
-
-  @action
-  void activeButton(){
-    isButtonActive = true;
   }
 
   double _calculateSimpleMethod(
