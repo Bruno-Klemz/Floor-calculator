@@ -13,6 +13,7 @@ class HomePageLayoutConstrains {
       textInputBetweenContainersPadding = 48.0,
       textInputHeight = 18.0,
       textInputWidth = 41.0,
+      resultTextPadding = 10.0,
       calculateButtonHeight = 60.0,
       calculateButtonWidth = 278,
       calculateButtonBorderRadius = 50.0;
